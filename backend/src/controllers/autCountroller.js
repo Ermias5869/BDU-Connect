@@ -1,0 +1,228 @@
+import User from "../models/userModel.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+
+export const signup = async (req, res) => {
+  try {
+    console.log(req.body);
+    if (!req.body) {
+      return res.status(404).json({
+        status: "fail",
+        message: "not input send",
+      });
+    }
+    const user = await User.create(req.body);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "sign up is fail",
+      });
+    }
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECURE, {
+      expiresIn: process.env.JWT_EXP,
+    });
+    if (!token) {
+      return res.status(404).json({
+        status: "fail",
+        message: "token fail",
+      });
+    }
+    res.cookie("jwt", token, {
+      maxAge: 10 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+export const login = async (req, res) => {
+  try {
+    const { studentId, password } = req.body;
+    if (!studentId || !password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "signin must put studentId and password",
+      });
+    }
+
+    const user = await User.findOne({ studentId });
+
+    if (!user) {
+      return res.status(400).json({
+        status: "fail",
+        message: "not user",
+      });
+    }
+
+    if (!(await user.checkPassword(password, user.password))) {
+      return res.status(400).json({
+        status: "fail",
+        message: "password or studentId is incorrect",
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECURE, {
+      expiresIn: process.env.JWT_EXP,
+    });
+
+    res.cookie("jwt", token, {
+      maxAge: 10 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+    });
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
+export const logout = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+export const protect = async (req, res, next) => {
+  try {
+    const token = req.cookies.jwt;
+    if (!token) {
+      return res.status(400).json({
+        status: "fail",
+        message: "no token",
+      });
+    }
+    const decode = jwt.verify(token, process.env.JWT_SECURE);
+    if (!decode) {
+      return res.status(400).json({
+        status: "fail",
+        message: "no decoded",
+      });
+    }
+    const user = await User.findById(decode.id).select("+role");
+
+    req.user = user;
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+  next();
+};
+export const restriction = (...role) => {
+  return (req, res, next) => {
+    if (!role.includes(req.user.role)) {
+      return res.status(403).json({
+        status: "fail",
+        message: "you are not permissin to done this",
+      });
+    }
+    next();
+  };
+};
+export const updatPassword = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("+password");
+
+    if (
+      !req.body.studentId ||
+      !req.body.password ||
+      !req.body.newpassword ||
+      !req.body.newpasswordConfirm
+    ) {
+      return res.status(400).json({
+        status: "fail",
+        message: "email and password is must",
+      });
+    }
+
+    if (!(await bcrypt.compare(req.body.password, user.password))) {
+      return res.status(400).json({
+        status: "fail",
+        message: "password not the same",
+      });
+    }
+
+    if (await user.correctPassword(req.body.newpassword, user.password)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "password and newpassword is can not the same",
+      });
+    }
+
+    if (!(req.body.newpassword === req.body.newpasswordConfirm)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "must be confirm",
+      });
+    }
+
+    user.password = req.body.newpassword;
+    user.passwordConfirm = req.body.newpasswordConfirm;
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECURE, {
+      expiresIn: process.env.JWT_EXP,
+    });
+
+    res.cookie("jwt", token, {
+      maxAge: 10 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+    });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+export const uploadPhoto = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { photo: req.file.path }, // Store Cloudinary URL instead of filename
+      { new: true }
+    );
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
+
+export const getme = async (req, res) => {
+  console.log("User from request:", req.user);
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    res.status(200).json(user);
+  } catch (error) {
+    console.log("Error in getMe controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+export const check = (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+};
