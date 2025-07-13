@@ -20,7 +20,7 @@ export default function SuggestionBox() {
           throw new Error(data.error || "Something went wrong");
         }
       } catch (error) {
-        console.error("Error during logout:", error); // Log the error
+        // Log the error
         throw new Error(error.message || "Something went wrong");
       }
     },

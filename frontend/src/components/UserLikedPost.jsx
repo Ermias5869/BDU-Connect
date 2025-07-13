@@ -147,7 +147,7 @@ export default function UserLikedPost() {
   if (isLoading) return <div className="p-4">Loading...</div>;
   if (isError)
     return <div className="p-4 text-red-500">Failed to load posts</div>;
-  console.log(posts);
+
   return (
     <div className="h-full p-4 bg-gray-100">
       {posts.length === 0 ? (

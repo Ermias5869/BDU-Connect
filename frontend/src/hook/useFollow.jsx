@@ -28,7 +28,6 @@ const useFollow = () => {
       ]);
     },
     onError: (error) => {
-      console.log(error.message);
       toast.error("follow user not complate");
     },
   });

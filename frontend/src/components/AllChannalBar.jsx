@@ -29,7 +29,6 @@ export default function AllChannalBar() {
   const { selectedChannal, selectChannal } = channalStore();
 
   if (isChnnalLoading) return <SidebarSkeleton />;
-  console.log(channal);
 
   return (
     <aside className="h-screen md:w-60 w-full  bg-white text-black  border-r border-gray-200 flex flex-col transition-all duration-200 overflow-scroll">

@@ -32,7 +32,6 @@ export default function ChatContainer() {
     },
     [messages]
   );
-  console.log(authUser);
 
   if (isMessageing)
     return (
