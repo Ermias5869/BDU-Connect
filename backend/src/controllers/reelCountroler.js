@@ -17,7 +17,6 @@ export const createReel = async (req, res) => {
     await newReel.save();
     res.status(200).json(newReel);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -45,7 +44,6 @@ export const deleteReel = async (req, res) => {
 
     res.status(200).json({ message: "Reel deleted successfully" });
   } catch (error) {
-    console.error("Error deleting reel:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -289,7 +287,7 @@ export const likedVideos = async (req, res) => {
         path: "comments.user",
         select: "-password",
       });
-    console.log("sssss", reels);
+
     if (reels.length === 0) {
       return res.status(200).json([]);
     }

@@ -63,7 +63,6 @@ export const sendGroupMessage = async (req, res) => {
 
     res.status(201).json(message);
   } catch (error) {
-    console.error("Error sending message:", error);
     res
       .status(500)
       .json({ message: "Failed to send message", error: error.message });
@@ -117,7 +116,6 @@ export const deleteMessage = async (req, res) => {
       message: "Message and associated media deleted successfully",
     });
   } catch (error) {
-    console.error("Error deleting message:", error);
     res
       .status(500)
       .json({ message: "Failed to delete message", error: error.message });
@@ -154,7 +152,6 @@ export const likeUnlikeGroupMessage = async (req, res) => {
       return res.status(200).json(updatedMessage); // Return the updated message
     }
   } catch (error) {
-    console.error("Error liking/unliking message:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -184,7 +181,6 @@ export const dislikeUndislikeGroupMessage = async (req, res) => {
       return res.status(200).json(updatedMessage);
     }
   } catch (error) {
-    console.error("Error disliking/undisliking message:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -248,7 +244,6 @@ export const EditMessage = async (req, res) => {
 
     res.status(200).json(groupMessage);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

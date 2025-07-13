@@ -27,7 +27,7 @@ export const followUnfollowUser = async (req, res) => {
     const { id } = req.params;
     const followedUser = await User.findById(id);
     const currentUser = await User.findById(req.user._id);
-    console.log(followedUser, currentUser, "  i");
+
     if (!followedUser || !currentUser) {
       return res.status(404).json({ message: "user not found" });
     }

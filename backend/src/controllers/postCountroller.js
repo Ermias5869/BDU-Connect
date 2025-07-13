@@ -39,7 +39,6 @@ export const deletePost = async (req, res) => {
     await post.deleteOne();
     return res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
-    console.error("Delete post error:", error.message);
     return res
       .status(500)
       .json({ message: "Server error", error: error.message });

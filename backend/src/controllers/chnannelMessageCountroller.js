@@ -14,8 +14,6 @@ export const sendChannelMessage = async (req, res) => {
     if (req.files.video) files.push(...req.files.video);
     if (req.files.file) files.push(...req.files.file);
 
-    console.log("Received files:", files);
-
     const channel = await Channel.findById(channelId);
     if (!channel) {
       return res.status(404).json({ message: "Channel not found" });
@@ -53,7 +51,6 @@ export const sendChannelMessage = async (req, res) => {
       }
     }
 
-    console.log("Uploaded media:", media);
     const message = await ChannelMessage.create({
       senderId,
       channelId,
@@ -69,74 +66,11 @@ export const sendChannelMessage = async (req, res) => {
     req.io.to(channalId).emit("newChannalMessage", savedMessage);
     res.status(201).json(message);
   } catch (error) {
-    console.error("Error sending message:", error);
     res
       .status(500)
       .json({ message: "Failed to send message", error: error.message });
   }
 };
-// export const sendChannelMessage = async (req, res) => {
-//   try {
-//     const { channelId } = req.params;
-//     const senderId = req.user._id;
-//     const { text } = req.body;
-
-//     const files = [];
-//     if (req.files?.photo) files.push(...req.files.photo);
-//     if (req.files?.video) files.push(...req.files.video);
-//     if (req.files?.file) files.push(...req.files.file);
-
-//     const channel = await Channel.findById(channelId);
-//     if (!channel) {
-//       return res.status(404).json({ message: "Channel not found" });
-//     }
-
-//     // Optional: Only allow creator to send message
-//     if (senderId.toString() !== channel.creator.toString()) {
-//       return res
-//         .status(403)
-//         .json({ message: "Only the channel creator can send messages" });
-//     }
-
-//     let media = { photos: [], videos: [], files: [] };
-
-//     for (const file of files) {
-//       if (!file.path) continue;
-
-//       const isImage = file.mimetype.startsWith("image/");
-//       const isVideo = file.mimetype.startsWith("video/");
-//       const isFile = !isImage && !isVideo;
-
-//       try {
-//         const uploadResult = file.path; // Already uploaded (Cloudinary local URL)
-//         if (isImage) media.photos.push(uploadResult);
-//         else if (isVideo) media.videos.push(uploadResult);
-//         else if (isFile) media.files.push(uploadResult);
-//       } catch (uploadError) {
-//         console.error("Upload error:", uploadError);
-//       }
-//     }
-
-//     const message = await ChannelMessage.create({
-//       senderId,
-//       channelId,
-//       text,
-//       photo: media.photos,
-//       video: media.videos,
-//       file: media.files,
-//     });
-
-//     // Real-time push to this channel
-//     req.io.to(channelId).emit("newChannalMessage", message);
-
-//     res.status(201).json(message);
-//   } catch (error) {
-//     console.error("Error sending channel message:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to send message", error: error.message });
-//   }
-// };
 
 export const deleteMessage = async (req, res) => {
   try {
@@ -187,7 +121,6 @@ export const deleteMessage = async (req, res) => {
       message: "Message and associated media deleted successfully",
     });
   } catch (error) {
-    console.error("Error deleting message:", error);
     res
       .status(500)
       .json({ message: "Failed to delete message", error: error.message });
@@ -224,7 +157,6 @@ export const likeUnlikeChannelMessage = async (req, res) => {
       return res.status(200).json(updatedMessage); // Return the updated message
     }
   } catch (error) {
-    console.error("Error liking/unliking message:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -360,7 +292,6 @@ export const dislikeUndislikeChannelMessage = async (req, res) => {
       return res.status(200).json(updatedMessage); // Return the updated message
     }
   } catch (error) {
-    console.error("Error disliking/undisliking message:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -412,7 +343,6 @@ export const EditMessage = async (req, res) => {
 
     res.status(200).json(channalMessage);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

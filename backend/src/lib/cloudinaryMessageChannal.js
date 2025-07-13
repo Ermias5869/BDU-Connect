@@ -18,7 +18,6 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     let folder = "bdu-connect/posts";
     let format;
-    console.log(file);
 
     if (file.mimetype.startsWith("image/")) {
       format = "jpeg";

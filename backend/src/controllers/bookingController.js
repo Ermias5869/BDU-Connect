@@ -37,7 +37,6 @@ export const getCheckOut = async (req, res) => {
       session,
     });
   } catch (error) {
-    console.error("Checkout error:", error);
     res.status(500).json({
       status: "fail",
       message: "Checkout session creation failed",

@@ -112,7 +112,7 @@ export const deleteChannel = async (req, res) => {
 export const ChannalProfile = async (req, res) => {
   try {
     const userId = req.user._id;
-    console.log(req.params.channelId);
+
     const channel = await Channel.findById(req.params.channelId);
     if (!channel) {
       return res.json({ message: "Channal is not define" });
