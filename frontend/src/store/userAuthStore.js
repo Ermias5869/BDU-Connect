@@ -82,7 +82,7 @@ export const AuthStore = create((set, get) => ({
 
   connectSocket: () => {
     if (!get().authUser || get().socket) return;
-    const socket = io("http://localhost:5001", {
+    const socket = io(import.meta.env.VITE_SOCKET_URL, {
       query: {
         userId: get().authUser._id,
       },
