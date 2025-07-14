@@ -4,34 +4,41 @@ import bcrypt from "bcryptjs";
 
 export const signup = async (req, res) => {
   try {
-    if (!req.body) {
-      return res.status(404).json({
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({
         status: "fail",
-        message: "not input send",
+        message: "No input sent",
       });
     }
+
     const user = await User.create(req.body);
+
     if (!user) {
-      return res.status(404).json({
+      return res.status(500).json({
         status: "fail",
-        message: "sign up is fail",
+        message: "Sign up failed",
       });
     }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECURE, {
       expiresIn: process.env.JWT_EXP,
     });
+
     if (!token) {
-      return res.status(404).json({
+      return res.status(500).json({
         status: "fail",
-        message: "token fail",
+        message: "Token generation failed",
       });
     }
+
+    // Set cookie with secure cross-origin settings
     res.cookie("jwt", token, {
-      maxAge: 10 * 24 * 60 * 60 * 1000,
+      maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: "none", // Allow cross-site cookie
+      secure: true, // HTTPS only
     });
+
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({
@@ -40,9 +47,11 @@ export const signup = async (req, res) => {
     });
   }
 };
+
 export const login = async (req, res) => {
   try {
     const { studentId, password } = req.body;
+
     if (!studentId || !password) {
       return res.status(400).json({
         status: "fail",
@@ -59,7 +68,8 @@ export const login = async (req, res) => {
       });
     }
 
-    if (!(await user.checkPassword(password, user.password))) {
+    const isPasswordCorrect = await user.checkPassword(password, user.password);
+    if (!isPasswordCorrect) {
       return res.status(400).json({
         status: "fail",
         message: "password or studentId is incorrect",
@@ -73,9 +83,10 @@ export const login = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 10 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: "none", // 🔥 Required for cross-origin
+      secure: true, // 🔥 Required with sameSite: "none"
     });
+
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({
@@ -84,6 +95,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 export const logout = async (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
