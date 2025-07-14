@@ -23,7 +23,7 @@ import UserPost from "./components/UserPost";
 import Setting from "./page/Setting";
 import ShortVideo from "./page/ShortVideo";
 import Video from "./page/Video";
-import MyVideo from "./components/myVideo";
+import MyVideo from "./components/MyVideo";
 import FollowingVideo from "./components/FollowingVideo";
 import UserVideo from "./components/UserVideo";
 import UserLikedVideo from "./components/UserLikedVideo";
