@@ -29,8 +29,8 @@ export const signup = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 10 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: "none",
+      secure: true,
     });
     res.status(201).json(user);
   } catch (error) {
@@ -73,8 +73,8 @@ export const login = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 10 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: "none",
+      secure: true,
     });
     return res.status(200).json(user);
   } catch (error) {
@@ -178,8 +178,8 @@ export const updatPassword = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 10 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      sameSite: "none",
+      secure: true,
     });
 
     res.status(200).json(user);
