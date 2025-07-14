@@ -40,7 +40,7 @@ export default function UserPost() {
     mutationFn: async (postId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/like/${postId}`,
-        { method: "PUT" }
+        { credentials: "include", method: "PUT" }
       );
       if (!res.ok) throw new Error("Failed to like/unlike post");
       return res.json();
@@ -53,6 +53,7 @@ export default function UserPost() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/comment/${postId}`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -71,6 +72,7 @@ export default function UserPost() {
           import.meta.env.VITE_API_URL
         }/post/deletecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -104,6 +106,7 @@ export default function UserPost() {
           import.meta.env.VITE_API_URL
         }/post/updatecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -145,6 +148,7 @@ export default function UserPost() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/delete/${postId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

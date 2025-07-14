@@ -27,7 +27,10 @@ export default function UserLikedPost() {
     queryKey: ["posts"],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/post/user/${user._id}`
+        `${import.meta.env.VITE_API_URL}/post/user/${user._id}`,
+        {
+          credentials: "include",
+        }
       );
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
@@ -40,7 +43,7 @@ export default function UserLikedPost() {
     mutationFn: async (postId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/like/${postId}`,
-        { method: "PUT" }
+        { credentials: "include", method: "PUT" }
       );
       if (!res.ok) throw new Error("Failed to like/unlike post");
       return res.json();
@@ -53,6 +56,7 @@ export default function UserLikedPost() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/comment/${postId}`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -71,6 +75,7 @@ export default function UserLikedPost() {
           import.meta.env.VITE_API_URL
         }/post/deletecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -104,6 +109,7 @@ export default function UserLikedPost() {
           import.meta.env.VITE_API_URL
         }/post/updatecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -145,6 +151,7 @@ export default function UserLikedPost() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/delete/${postId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

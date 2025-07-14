@@ -34,7 +34,12 @@ export default function GroupMessage() {
     enabled: !!selectedGroup?._id,
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/groupmessage/getmessage/${selectedGroup._id}`
+        `${import.meta.env.VITE_API_URL}/groupmessage/getmessage/${
+          selectedGroup._id
+        }`,
+        {
+          credentials: "include",
+        }
       );
       const data = await res.json();
       if (!res.ok || data?.error) {
@@ -46,11 +51,17 @@ export default function GroupMessage() {
 
   const editMessageMutation = useMutation({
     mutationFn: async (updatedMessage) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/groupmessage/edit/${updatedMessage._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: updatedMessage.text }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/groupmessage/edit/${
+          updatedMessage._id
+        }`,
+        {
+          credentials: "include",
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: updatedMessage.text }),
+        }
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to edit message");
@@ -73,9 +84,13 @@ export default function GroupMessage() {
 
   const deleteGroupMessageMutation = useMutation({
     mutationFn: async (messageId) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/groupmessage/delete/${messageId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/groupmessage/delete/${messageId}`,
+        {
+          credentials: "include",
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to delete message");
@@ -94,9 +109,17 @@ export default function GroupMessage() {
 
   const addReactionMutation = useMutation({
     mutationFn: (emoji) =>
-      axios.post(`${import.meta.env.VITE_API_URL}/groupmessage/message/${messageIdToReact}/reaction`, {
-        emoji,
-      }),
+      axios.post(
+        `${
+          import.meta.env.VITE_API_URL
+        }/groupmessage/message/${messageIdToReact}/reaction`,
+        {
+          emoji,
+        },
+        {
+          credentials: "include",
+        }
+      ),
     onSuccess: () => {
       setShowEmojiPicker(false);
       refetchMessages();
@@ -105,9 +128,13 @@ export default function GroupMessage() {
   });
   const joinGroup = useMutation({
     mutationFn: async (groupId) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/group/join/${groupId}`, {
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/group/join/${groupId}`,
+        {
+          credentials: "include",
+          method: "PUT",
+        }
+      );
 
       const data = await res.json();
 

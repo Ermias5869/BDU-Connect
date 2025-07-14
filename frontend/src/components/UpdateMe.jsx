@@ -25,6 +25,7 @@ export default function UpdateMe() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/user//updateme`,
         {
+          credentials: "include",
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

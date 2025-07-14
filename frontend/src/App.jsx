@@ -58,7 +58,10 @@ export default function App() {
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/getme`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/getme`, {
+          credentials: "include",
+        });
+
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

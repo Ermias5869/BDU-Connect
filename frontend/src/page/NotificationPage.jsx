@@ -18,7 +18,12 @@ const NotificationPage = () => {
     queryKey: ["notifications"],
     queryFn: async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/notification`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/notification`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Something went wrong");
         return data;
@@ -35,6 +40,7 @@ const NotificationPage = () => {
           `${import.meta.env.VITE_API_URL}/notification`,
           {
             method: "DELETE",
+            credentials: "include", // <---
           }
         );
         const data = await res.json();
@@ -60,6 +66,7 @@ const NotificationPage = () => {
           `${import.meta.env.VITE_API_URL}/notification/${id}`,
           {
             method: "DELETE",
+            credentials: "include",
           }
         );
         const data = await res.json();

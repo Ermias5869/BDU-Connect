@@ -13,8 +13,12 @@ export default function AllChannalBar() {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/channal/getchannels`
+          `${import.meta.env.VITE_API_URL}/channal/getchannels`,
+          {
+            credentials: "include",
+          }
         );
+
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

@@ -25,6 +25,7 @@ export default function SignUpPage() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ studentId, password }),
         });
 

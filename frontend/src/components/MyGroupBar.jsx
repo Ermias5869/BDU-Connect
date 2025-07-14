@@ -13,7 +13,10 @@ export default function MyGroupBar() {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/group/mygroup`
+          `${import.meta.env.VITE_API_URL}/group/mygroup`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (!res.ok || data?.error) return null;

@@ -24,7 +24,12 @@ export default function MyPosts() {
   } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/post/getmypost`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/getmypost`,
+        {
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch posts");
@@ -36,7 +41,7 @@ export default function MyPosts() {
     mutationFn: async (postId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/like/${postId}`,
-        { method: "PUT" }
+        { credentials: "include", method: "PUT" }
       );
       if (!res.ok) throw new Error("Failed to like/unlike post");
       return res.json();
@@ -49,6 +54,7 @@ export default function MyPosts() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/comment/${postId}`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -67,6 +73,7 @@ export default function MyPosts() {
           import.meta.env.VITE_API_URL
         }/post/deletecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -100,6 +107,7 @@ export default function MyPosts() {
           import.meta.env.VITE_API_URL
         }/post/updatecomment/${postId}/${commentId}`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -141,6 +149,7 @@ export default function MyPosts() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/post/delete/${postId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

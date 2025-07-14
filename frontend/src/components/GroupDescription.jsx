@@ -20,7 +20,10 @@ export default function GroupDescription({ setIsSetting }) {
     enabled: !!selectedGroup?._id,
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/group/getgroup/${selectedGroup._id}`
+        `${import.meta.env.VITE_API_URL}/group/getgroup/${selectedGroup._id}`,
+        {
+          credentials: "include",
+        }
       );
       const data = await res.json();
       if (!res.ok || data?.error) {
@@ -35,6 +38,7 @@ export default function GroupDescription({ setIsSetting }) {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/group/leave/${groupId}`,
         {
+          credentials: "include",
           method: "PUT",
         }
       );
@@ -59,6 +63,7 @@ export default function GroupDescription({ setIsSetting }) {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/group/delete/${groupId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

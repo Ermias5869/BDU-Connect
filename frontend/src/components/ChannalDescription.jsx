@@ -57,9 +57,13 @@ export default function ChannalDescription({ setIsSetting }) {
 
   const deleteChannal = useMutation({
     mutationFn: async (channalId) => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/channal/delete/${channalId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/delete/${channalId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to delete channel");

@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +12,10 @@ export default function FoodDetail() {
     queryKey: ["order", Id],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/order/getorder/${Id}`
+        `${import.meta.env.VITE_API_URL}/order/getorder/${Id}`,
+        {
+          credentials: "include",
+        }
       );
       const data = await res.json();
       if (!res.ok || typeof data !== "object") {
@@ -28,6 +30,7 @@ export default function FoodDetail() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/booking/checkout/${Id}`,
         {
+          credentials: "include",
           method: "POST",
         }
       );

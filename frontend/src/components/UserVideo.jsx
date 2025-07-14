@@ -28,7 +28,7 @@ export default function UserVideo() {
     mutationFn: async (reelId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/like/${reelId}`,
-        { method: "PUT" }
+        { credentials: "include", method: "PUT" }
       );
       if (!res.ok) throw new Error("Failed to like/unlike video");
       return res.json();
@@ -40,6 +40,7 @@ export default function UserVideo() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/comment/${videoId}`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -57,6 +58,7 @@ export default function UserVideo() {
           import.meta.env.VITE_API_URL
         }/reel/deletecomment/${videoId}/${commentId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -93,6 +95,7 @@ export default function UserVideo() {
           import.meta.env.VITE_API_URL
         }/reel/updatecomment/${videoId}/${commentId}`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -137,6 +140,7 @@ export default function UserVideo() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/delete/${videoId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

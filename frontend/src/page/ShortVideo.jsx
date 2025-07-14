@@ -13,8 +13,12 @@ export default function ShortVideo() {
     queryKey: ["videos"],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/reel/getallvideo`
+        `${import.meta.env.VITE_API_URL}/reel/getallvideo`,
+        {
+          credentials: "include",
+        }
       );
+
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch posts");
@@ -25,7 +29,7 @@ export default function ShortVideo() {
     mutationFn: async (reelId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/like/${reelId}`,
-        { method: "PUT" }
+        { credentials: "include", method: "PUT" }
       );
       if (!res.ok) throw new Error("Failed to like/unlike video");
       return res.json();
@@ -37,6 +41,7 @@ export default function ShortVideo() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/comment/${videoId}`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -54,6 +59,7 @@ export default function ShortVideo() {
           import.meta.env.VITE_API_URL
         }/reel/deletecomment/${videoId}/${commentId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -90,6 +96,7 @@ export default function ShortVideo() {
           import.meta.env.VITE_API_URL
         }/reel/updatecomment/${videoId}/${commentId}`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
@@ -134,6 +141,7 @@ export default function ShortVideo() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/reel/delete/${videoId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );

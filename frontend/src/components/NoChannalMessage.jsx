@@ -1,5 +1,3 @@
-import { MessageSquare } from "lucide-react";
-
 const NoChannalMessage = () => {
   return (
     <div className="w-full flex h-screen flex-1 flex-col items-center bg-white justify-center p-16 bg-base-100/50">

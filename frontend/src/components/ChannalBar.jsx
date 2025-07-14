@@ -13,8 +13,12 @@ export default function ChannalBar() {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/channal/joinchannel`
+          `${import.meta.env.VITE_API_URL}/channal/joinchannel`,
+          {
+            credentials: "include",
+          }
         );
+
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

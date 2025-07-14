@@ -6,7 +6,10 @@ const useUser = (studId) => {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/getuserprofile/${studId}`
+          `${import.meta.env.VITE_API_URL}/user/getuserprofile/${studId}`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (!res.ok) {

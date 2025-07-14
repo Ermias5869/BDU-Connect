@@ -29,6 +29,7 @@ export default function CreateVideo() {
         }
 
         const res = await fetch(`${import.meta.env.VITE_API_URL}/reel/create`, {
+          credentials: "include",
           method: "POST",
           body: formData,
         });

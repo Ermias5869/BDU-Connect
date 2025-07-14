@@ -13,8 +13,12 @@ export default function GroupBar() {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/group/joingroup`
+          `${import.meta.env.VITE_API_URL}/group/joingroup`,
+          {
+            credentials: "include", // include cookies in request for authentication
+          }
         );
+
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

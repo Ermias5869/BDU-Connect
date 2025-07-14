@@ -30,6 +30,7 @@ export default function CreatePost() {
         }
 
         const res = await fetch(`${import.meta.env.VITE_API_URL}/post/create`, {
+          credentials: "include",
           method: "POST",
           body: formData, // Send FormData to the server
         });

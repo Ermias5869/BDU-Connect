@@ -10,6 +10,7 @@ const useFollow = () => {
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/user/follow/${userId}`,
           {
+             credentials: "include", 
             method: "POST",
           }
         );

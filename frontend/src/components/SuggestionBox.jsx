@@ -12,6 +12,7 @@ export default function SuggestionBox() {
     mutationFn: async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+          credentials: "include",
           method: "POST",
         });
         const data = await res.json();
@@ -36,7 +37,10 @@ export default function SuggestionBox() {
     queryFn: async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/suggestUsers`
+          `${import.meta.env.VITE_API_URL}/user/suggestUsers`,
+          {
+            credentials: "include",
+          }
         );
         const data = await res.json();
         if (!res.ok) {

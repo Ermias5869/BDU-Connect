@@ -29,6 +29,7 @@ export default function UpdateChannalInfo() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channal/update/${id}`,
         {
+          credentials: "include",
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

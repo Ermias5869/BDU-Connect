@@ -1,4 +1,3 @@
-import React from "react";
 import CreateVideo from "../components/CreateVideo";
 import { NavLink, Outlet } from "react-router-dom";
 

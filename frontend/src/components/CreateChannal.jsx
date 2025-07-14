@@ -19,6 +19,8 @@ export default function CreateChannal() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channal/create`,
         {
+          credentials: "include",
+
           method: "POST",
           headers: {
             "Content-Type": "application/json",

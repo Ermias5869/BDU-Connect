@@ -20,6 +20,7 @@ export default function UpdatePassword() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/updatepassword`,
         {
+          credentials: "include",
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

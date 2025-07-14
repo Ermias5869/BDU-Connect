@@ -34,8 +34,12 @@ export default function ChannalMessage() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channelmessage/getmessage/${
           selectedChannal._id
-        }`
+        }`,
+        {
+          credentials: "include",
+        }
       );
+
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to fetch messages");
@@ -51,6 +55,7 @@ export default function ChannalMessage() {
           updatedMessage._id
         }`,
         {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text: updatedMessage.text }),
@@ -81,6 +86,7 @@ export default function ChannalMessage() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channelmessage/delete/${messageId}`,
         {
+          credentials: "include",
           method: "DELETE",
         }
       );
@@ -102,20 +108,26 @@ export default function ChannalMessage() {
 
   const addReactionMutation = useMutation({
     mutationFn: (emoji) =>
-      axios.post(`/api/channelmessage/message/${messageIdToReact}/reaction`, {
-        emoji,
-      }),
+      axios.post(
+        `/api/channelmessage/message/${messageIdToReact}/reaction`,
+        { emoji },
+        {
+          withCredentials: true, // 🔥 Sends the cookie for authentication
+        }
+      ),
     onSuccess: () => {
       setShowEmojiPicker(false);
       refetchMessages();
     },
     onError: () => toast.error("Failed to add reaction"),
   });
+
   const joinChannal = useMutation({
     mutationFn: async (channalId) => {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channal/join/${channalId}`,
         {
+          withCredentials: true,
           method: "PUT",
         }
       );

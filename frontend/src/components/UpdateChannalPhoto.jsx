@@ -16,6 +16,7 @@ export default function UpdateChannalPhoto() {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/channal/uploadphoto/${id}`,
         {
+          credentials: "include",
           method: "PATCH",
           body: formData,
         }

@@ -2,7 +2,7 @@ import {
   FaLayerGroup,
   FaUsers,
   FaUserShield,
-  FaComments,
+
 } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";

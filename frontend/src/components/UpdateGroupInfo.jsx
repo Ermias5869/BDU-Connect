@@ -29,6 +29,7 @@ export default function UpdateGroupInfo() {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/group/update/${id}`, {
         method: "PATCH",
         headers: {
+           credentials: "include", 
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, description, link }),
