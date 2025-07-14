@@ -28,7 +28,7 @@ export default function CreateVideo() {
           formData.append("video", video);
         }
 
-        const res = await fetch("/api/reel/create", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/reel/create`, {
           method: "POST",
           body: formData,
         });

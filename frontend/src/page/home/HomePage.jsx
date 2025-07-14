@@ -20,7 +20,9 @@ export default function HomePage() {
   } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch("/api/post/getallpost");
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/getallpost`
+      );
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch posts");
@@ -30,7 +32,10 @@ export default function HomePage() {
 
   const likePostMutation = useMutation({
     mutationFn: async (postId) => {
-      const res = await fetch(`/api/post/like/${postId}`, { method: "PUT" });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/like/${postId}`,
+        { method: "PUT" }
+      );
       if (!res.ok) throw new Error("Failed to like/unlike post");
       return res.json();
     },
@@ -39,11 +44,14 @@ export default function HomePage() {
 
   const commentMutation = useMutation({
     mutationFn: async ({ postId, text }) => {
-      const res = await fetch(`/api/post/comment/${postId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/comment/${postId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        }
+      );
       if (!res.ok) throw new Error("Failed to add comment");
       return res.json();
     },
@@ -54,7 +62,9 @@ export default function HomePage() {
   const deleteCommentMutation = useMutation({
     mutationFn: async ({ postId, commentId }) => {
       const res = await fetch(
-        `/api/post/deletecomment/${postId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/post/deletecomment/${postId}/${commentId}`,
         {
           method: "DELETE",
         }
@@ -88,7 +98,9 @@ export default function HomePage() {
   const updateCommentMutation = useMutation({
     mutationFn: async ({ postId, commentId, text }) => {
       const res = await fetch(
-        `/api/post/updatecomment/${postId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/post/updatecomment/${postId}/${commentId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

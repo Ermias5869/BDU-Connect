@@ -18,7 +18,11 @@ export default function ChannalDescription({ setIsSetting }) {
     queryKey: ["channal", selectedChannal?._id],
     enabled: !!selectedChannal?._id,
     queryFn: async () => {
-      const res = await fetch(`/api/channal/getchannel/${selectedChannal._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/getchannel/${
+          selectedChannal._id
+        }`
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to fetch channel data");
@@ -29,9 +33,12 @@ export default function ChannalDescription({ setIsSetting }) {
 
   const leaveChannal = useMutation({
     mutationFn: async (channalId) => {
-      const res = await fetch(`/api/channal/leave/${channalId}`, {
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/leave/${channalId}`,
+        {
+          method: "PUT",
+        }
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to leave channel");
@@ -50,7 +57,7 @@ export default function ChannalDescription({ setIsSetting }) {
 
   const deleteChannal = useMutation({
     mutationFn: async (channalId) => {
-      const res = await fetch(`/api/channal/delete/${channalId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/channal/delete/${channalId}`, {
         method: "DELETE",
       });
       const data = await res.json();

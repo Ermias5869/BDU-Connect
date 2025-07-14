@@ -16,7 +16,7 @@ export default function CreateGroup() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ name, description, link }) => {
-      const res = await fetch(`/api/group/create`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/group/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

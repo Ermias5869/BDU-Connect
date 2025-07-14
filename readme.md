@@ -10,7 +10,6 @@ BDU CONNECT is a **university-based social media platform** designed for student
 - 📂 **Media Upload** – Share images, videos, and files via Cloudinary
 - 😀 **Reactions** – Emoji support for posts and messages
 - 🧾 **Comments** – Full commenting system with edit/delete
-- 🎥 **Video Calling** – Peer-to-peer calling via WebRTC & Socket.IO
 - 💰 **payment Integration**
 - 🛡️ **Authentication** – JWT-based secure login
 

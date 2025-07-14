@@ -17,18 +17,21 @@ export default function UpdatePassword() {
       newpassword,
       newpasswordConfirm,
     }) => {
-      const res = await fetch("/api/auth/updatepassword", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          studentId,
-          password,
-          newpassword,
-          newpasswordConfirm,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/updatepassword`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            studentId,
+            password,
+            newpassword,
+            newpasswordConfirm,
+          }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to update password");

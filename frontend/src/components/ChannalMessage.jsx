@@ -32,7 +32,9 @@ export default function ChannalMessage() {
     enabled: !!selectedChannal?._id,
     queryFn: async () => {
       const res = await fetch(
-        `/api/channelmessage/getmessage/${selectedChannal._id}`
+        `${import.meta.env.VITE_API_URL}/channelmessage/getmessage/${
+          selectedChannal._id
+        }`
       );
       const data = await res.json();
       if (!res.ok || data?.error) {
@@ -45,7 +47,9 @@ export default function ChannalMessage() {
   const editMessageMutation = useMutation({
     mutationFn: async (updatedMessage) => {
       const res = await fetch(
-        `/api/channelmessage/edit/${updatedMessage._id}`,
+        `${import.meta.env.VITE_API_URL}/channelmessage/edit/${
+          updatedMessage._id
+        }`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -74,9 +78,12 @@ export default function ChannalMessage() {
 
   const deleteChannnalMessageMutation = useMutation({
     mutationFn: async (messageId) => {
-      const res = await fetch(`/api/channelmessage/delete/${messageId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channelmessage/delete/${messageId}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to delete message");
@@ -106,9 +113,12 @@ export default function ChannalMessage() {
   });
   const joinChannal = useMutation({
     mutationFn: async (channalId) => {
-      const res = await fetch(`/api/channal/join/${channalId}`, {
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/join/${channalId}`,
+        {
+          method: "PUT",
+        }
+      );
 
       const data = await res.json();
 

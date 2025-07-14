@@ -26,7 +26,7 @@ export default function UpdateGroupInfo() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ id, name, description, link }) => {
-      const res = await fetch(`/api/group/update/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/group/update/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

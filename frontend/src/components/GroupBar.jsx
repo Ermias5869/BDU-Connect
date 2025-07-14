@@ -12,7 +12,9 @@ export default function GroupBar() {
     queryKey: ["group"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/group/joingroup");
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/group/joingroup`
+        );
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

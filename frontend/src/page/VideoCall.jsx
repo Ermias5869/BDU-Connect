@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function VideoCall() {
   const { data: participants = [] } = useQuery({
     queryFn: async () => {
-      const res = await fetch("/api/user/get");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/get`);
       const data = await res.json();
       if (!res.ok || data?.error) throw new Error("Something went wrong");
       return data;

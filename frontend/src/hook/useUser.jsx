@@ -5,7 +5,9 @@ const useUser = (studId) => {
     queryKey: ["userProfile"],
     queryFn: async () => {
       try {
-        const res = await fetch(`/api/user/getuserprofile/${studId}`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/user/getuserprofile/${studId}`
+        );
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong");

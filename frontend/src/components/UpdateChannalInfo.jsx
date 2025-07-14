@@ -26,13 +26,16 @@ export default function UpdateChannalInfo() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ id, name, description, link }) => {
-      const res = await fetch(`/api/channal/update/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, description, link }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/update/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, description, link }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok)

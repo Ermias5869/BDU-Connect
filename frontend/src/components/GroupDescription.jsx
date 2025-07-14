@@ -19,7 +19,9 @@ export default function GroupDescription({ setIsSetting }) {
     queryKey: ["group", selectedGroup?._id],
     enabled: !!selectedGroup?._id,
     queryFn: async () => {
-      const res = await fetch(`/api/group/getgroup/${selectedGroup._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/group/getgroup/${selectedGroup._id}`
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to fetch group data");
@@ -30,9 +32,12 @@ export default function GroupDescription({ setIsSetting }) {
 
   const leaveGroup = useMutation({
     mutationFn: async (groupId) => {
-      const res = await fetch(`/api/group/leave/${groupId}`, {
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/group/leave/${groupId}`,
+        {
+          method: "PUT",
+        }
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.message || "Failed to leave channel");
@@ -51,9 +56,12 @@ export default function GroupDescription({ setIsSetting }) {
 
   const deleteGroup = useMutation({
     mutationFn: async (groupId) => {
-      const res = await fetch(`/api/group/delete/${groupId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/group/delete/${groupId}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (!res.ok || data?.error) {
         throw new Error(data?.error || "Failed to delete group");

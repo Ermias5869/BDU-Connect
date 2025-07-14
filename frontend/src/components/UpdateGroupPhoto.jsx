@@ -13,7 +13,7 @@ export default function UpdateGroupPhoto() {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const res = await fetch(`/api/group/uploadphoto/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/group/uploadphoto/${id}`, {
         method: "PATCH",
         body: formData,
       });

@@ -16,13 +16,16 @@ export default function CreateChannal() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ name, description, link }) => {
-      const res = await fetch(`/api/channal/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, description, link }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, description, link }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok)

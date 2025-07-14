@@ -29,7 +29,7 @@ export default function CreatePost() {
           formData.append("image", image); // Append image file to FormData
         }
 
-        const res = await fetch("/api/post/create", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/post/create`, {
           method: "POST",
           body: formData, // Send FormData to the server
         });

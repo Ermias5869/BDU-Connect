@@ -13,10 +13,13 @@ export default function UpdateChannalPhoto() {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const res = await fetch(`/api/channal/uploadphoto/${id}`, {
-        method: "PATCH",
-        body: formData,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/channal/uploadphoto/${id}`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
       if (!res.ok)

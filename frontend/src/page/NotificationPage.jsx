@@ -18,7 +18,7 @@ const NotificationPage = () => {
     queryKey: ["notifications"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/notification");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/notification`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Something went wrong");
         return data;
@@ -31,9 +31,12 @@ const NotificationPage = () => {
   const { mutate: deleteNotifications } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch("/api/notification", {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/notification`,
+          {
+            method: "DELETE",
+          }
+        );
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -53,9 +56,12 @@ const NotificationPage = () => {
   const { mutate: deleteNotification } = useMutation({
     mutationFn: async (id) => {
       try {
-        const res = await fetch(`/api/notification/${id}`, {
-          method: "DELETE",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/notification/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.error || "Something went wrong");

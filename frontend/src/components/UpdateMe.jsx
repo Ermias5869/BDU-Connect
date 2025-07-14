@@ -22,17 +22,20 @@ export default function UpdateMe() {
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ name, bio, link }) => {
-      const res = await fetch("/api/user//updateme", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          bio,
-          link,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/user//updateme`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            bio,
+            link,
+          }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to update password");

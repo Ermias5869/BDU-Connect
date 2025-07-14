@@ -12,7 +12,9 @@ export default function FoodDetail() {
   } = useQuery({
     queryKey: ["order", Id],
     queryFn: async () => {
-      const res = await fetch(`/api/order/getorder/${Id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/order/getorder/${Id}`
+      );
       const data = await res.json();
       if (!res.ok || typeof data !== "object") {
         throw new Error("Failed to fetch item");
@@ -23,9 +25,12 @@ export default function FoodDetail() {
 
   const handleOrder = async () => {
     try {
-      const res = await fetch(`/api/booking/checkout/${Id}`, {
-        method: "POST",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/booking/checkout/${Id}`,
+        {
+          method: "POST",
+        }
+      );
       const data = await res.json();
 
       if (data.status === "success" && data.session?.url) {

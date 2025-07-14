@@ -10,7 +10,7 @@ export default function GdiftFood() {
   } = useQuery({
     queryKey: ["order"],
     queryFn: async () => {
-      const res = await fetch("/api/order/order2");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/order/order2`);
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch items");

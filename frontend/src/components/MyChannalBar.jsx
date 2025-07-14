@@ -12,7 +12,7 @@ export default function MyChannalBar() {
     queryKey: ["channal"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/channal/mychannel");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/channal/mychannel`);
         const data = await res.json();
         if (!res.ok || data?.error) return null;
 

@@ -11,7 +11,7 @@ export default function SuggestionBox() {
   const { mutate: logout } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch("/api/auth/logout", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
           method: "POST",
         });
         const data = await res.json();
@@ -35,7 +35,9 @@ export default function SuggestionBox() {
     queryKey: ["suggestedUsers"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/user/suggestUsers");
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/user/suggestUsers`
+        );
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong!");

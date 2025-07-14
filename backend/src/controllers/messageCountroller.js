@@ -5,49 +5,6 @@ import Notification from "../models/notificationModel.js";
 import { getReceverSocketId, io } from "../lib/socket.js";
 
 export const getFollowedUsersWithLastMessage = async (req, res) => {
-  // try {
-  //   const userId = req.user._id;
-
-  //   // Find users that the current user follows and are followed back
-  //   const followedUsers = await User.find({
-  //     _id: { $ne: userId },
-  //     followers: userId,
-  //     following: userId,
-  //   });
-
-  //   // Fetch the last message for each followed user
-  //   const usersWithLastMessage = await Promise.all(
-  //     followedUsers.map(async (user) => {
-  //       const lastMessage = await Message.findOne({
-  //         $or: [
-  //           { senderId: userId, receiverId: user._id },
-  //           { senderId: user._id, receiverId: userId },
-  //         ],
-  //       })
-  //         .sort({ createdAt: -1 })
-  //         .exec();
-
-  //       return {
-  //         user,
-  //         lastMessage,
-  //       };
-  //     })
-  //   );
-
-  //   // Sort users by the timestamp of the last message
-  //   usersWithLastMessage.sort((a, b) => {
-  //     const dateA = a.lastMessage ? a.lastMessage.createdAt : 0;
-  //     const dateB = b.lastMessage ? b.lastMessage.createdAt : 0;
-  //     return dateB - dateA;
-  //   });
-
-  //   res.status(200).json(usersWithLastMessage);
-  // } catch (error) {
-  //   res.status(400).json({
-  //     status: "fail",
-  //     message: "Failed to fetch followed users with last message",
-  //   });
-  // }
   try {
     const users = await User.find({ _id: { $ne: req.user._id } });
     res.status(200).json(users);

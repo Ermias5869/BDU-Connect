@@ -12,7 +12,9 @@ export default function ShortVideo() {
   } = useQuery({
     queryKey: ["videos"],
     queryFn: async () => {
-      const res = await fetch("/api/reel/getallvideo");
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/reel/getallvideo`
+      );
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch posts");
@@ -21,7 +23,10 @@ export default function ShortVideo() {
   });
   const likeReelMutation = useMutation({
     mutationFn: async (reelId) => {
-      const res = await fetch(`/api/reel/like/${reelId}`, { method: "PUT" });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/reel/like/${reelId}`,
+        { method: "PUT" }
+      );
       if (!res.ok) throw new Error("Failed to like/unlike video");
       return res.json();
     },
@@ -29,11 +34,14 @@ export default function ShortVideo() {
   });
   const commentMutation = useMutation({
     mutationFn: async ({ videoId, text }) => {
-      const res = await fetch(`/api/reel/comment/${videoId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/reel/comment/${videoId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        }
+      );
       if (!res.ok) throw new Error("Failed to add comment");
       return res.json();
     },
@@ -42,7 +50,9 @@ export default function ShortVideo() {
   const deleteCommentMutation = useMutation({
     mutationFn: async ({ videoId, commentId }) => {
       const res = await fetch(
-        `/api/reel/deletecomment/${videoId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/reel/deletecomment/${videoId}/${commentId}`,
         {
           method: "DELETE",
         }
@@ -76,7 +86,9 @@ export default function ShortVideo() {
   const updateCommentMutation = useMutation({
     mutationFn: async ({ videoId, commentId, text }) => {
       const res = await fetch(
-        `/api/reel/updatecomment/${videoId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/reel/updatecomment/${videoId}/${commentId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -119,9 +131,12 @@ export default function ShortVideo() {
   });
   const deletevideoMutation = useMutation({
     mutationFn: async (videoId) => {
-      const res = await fetch(`/api/reel/delete/${videoId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/reel/delete/${videoId}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to delete post");

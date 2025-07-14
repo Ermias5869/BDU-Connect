@@ -26,7 +26,9 @@ export default function UserLikedPost() {
   } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch(`/api/post/user/${user._id}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/user/${user._id}`
+      );
       const data = await res.json();
       if (!res.ok || !Array.isArray(data))
         throw new Error("Failed to fetch posts");
@@ -36,7 +38,10 @@ export default function UserLikedPost() {
 
   const likePostMutation = useMutation({
     mutationFn: async (postId) => {
-      const res = await fetch(`/api/post/like/${postId}`, { method: "PUT" });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/like/${postId}`,
+        { method: "PUT" }
+      );
       if (!res.ok) throw new Error("Failed to like/unlike post");
       return res.json();
     },
@@ -45,11 +50,14 @@ export default function UserLikedPost() {
 
   const commentMutation = useMutation({
     mutationFn: async ({ postId, text }) => {
-      const res = await fetch(`/api/post/comment/${postId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/comment/${postId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        }
+      );
       if (!res.ok) throw new Error("Failed to add comment");
       return res.json();
     },
@@ -59,7 +67,9 @@ export default function UserLikedPost() {
   const deleteCommentMutation = useMutation({
     mutationFn: async ({ postId, commentId }) => {
       const res = await fetch(
-        `/api/post/deletecomment/${postId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/post/deletecomment/${postId}/${commentId}`,
         {
           method: "DELETE",
         }
@@ -90,7 +100,9 @@ export default function UserLikedPost() {
   const updateCommentMutation = useMutation({
     mutationFn: async ({ postId, commentId, text }) => {
       const res = await fetch(
-        `/api/post/updatecomment/${postId}/${commentId}`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/post/updatecomment/${postId}/${commentId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -130,9 +142,12 @@ export default function UserLikedPost() {
   // New mutation for deleting post
   const deletePostMutation = useMutation({
     mutationFn: async (postId) => {
-      const res = await fetch(`/api/post/delete/${postId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/post/delete/${postId}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to delete post");
